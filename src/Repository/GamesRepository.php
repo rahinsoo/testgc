@@ -55,4 +55,52 @@ readonly final class GamesRepository {
 
         return $this->pdo->lastInsertId();
     }
+
+
+    /**
+     * A2. 1) Récupère les jeux les mieux notés (rating décroissant)
+     * Utilise ORDER BY pour trier par note décroissante
+     */
+    public function findTopRated(int $limit = 10) : array {
+        $sql = $this->pdo->prepare("SELECT * 
+            FROM games 
+            ORDER BY rating DESC, title ASC 
+            LIMIT :limit
+        ");
+        $sql->bindValue('limit', $limit, PDO::PARAM_INT);
+        $sql->execute();
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * A2.2) Récupère les jeux les plus récents (année de sortie décroissante)
+     * Utilise ORDER BY pour trier par année de sortie décroissante
+     */
+    public function findRecent(int $limit = 10) : array {
+        $sql = $this->pdo->prepare("
+            SELECT * 
+            FROM games 
+            ORDER BY releaseYear DESC, title ASC 
+            LIMIT :limit
+        ");
+        $sql->bindValue('limit', $limit, PDO:: PARAM_INT);
+        $sql->execute();
+        return $sql->fetchAll(PDO:: FETCH_ASSOC);
+    }
+
+    /**
+     * A2.3) Compte le nombre de jeux pour chaque note
+     * Utilise GROUP BY pour grouper par rating et COUNT pour compter
+     */
+    public function countGamesByRating() : array {
+        $sql = $this->pdo->query("
+            SELECT 
+                rating, 
+                COUNT(*) as count 
+            FROM games 
+            GROUP BY rating 
+            ORDER BY rating DESC
+        ");
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

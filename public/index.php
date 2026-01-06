@@ -1,6 +1,7 @@
 <?php
 
 use Controller\AppController;
+use Controller\GameApiController;
 use Controller\PingApiController;
 use Core\Cors;
 use Core\Database;
@@ -25,8 +26,9 @@ $repository = new GamesRepository(Database::makePdo($config['db']));
 
 $appController = new AppController($response, $repository, $session, $request);
 $pingApiController = new PingApiController();
+$gameApiController = new GameApiController($response, $repository);
 
 $registerRoutes = require __DIR__ . '/../config/routes.php';
-$registerRoutes($router, $appController, $pingApiController);
+$registerRoutes($router, $appController, $pingApiController, $gameApiController);
 $router->dispatch($request, $response);
 

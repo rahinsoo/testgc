@@ -75,6 +75,17 @@ Avant toute intégration Angular :
 - vérifier que le JSON retourné est valide
 - vérifier qu’aucune vue HTML n’est utilisée
 
+## INFO CREATION XAVIER
+--> vérification OK avec
+
+http://localhost:8080/api/games/top
+
+http://localhost:8080/api/games/recent
+
+http://localhost:8080/api/stats/ratings
+
+Les tests ont été fait en ligne de commande et avec Postman.
+
 ---
 
 ## Partie B — Front Angular
