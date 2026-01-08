@@ -8,15 +8,15 @@ final class Router {
     private array $postRoutes = [];
     private array $getRegexRoutes = [];
 
-    public function get(string $path, callable $handler): void {
+    public function get(string $path, callable|array $handler): void {
         $this->getRoutes[$path] = $handler;
     }
 
-    public function post(string $path, callable $handler) :void {
+    public function post(string $path, callable|array $handler): void {
         $this->postRoutes[$path] = $handler;
     }
 
-    public function getRegex(string $pattern, callable $handler) : void {
+    public function getRegex(string $pattern, callable|array $handler) : void {
         $this->getRegexRoutes[$pattern] = $handler;
     }
 
