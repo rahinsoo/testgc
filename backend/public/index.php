@@ -1,7 +1,7 @@
 <?php
 
 use Controller\AppController;
-use Controller\GameApiController;
+//use Controller\GameApiController;
 use Controller\PingApiController;
 use Core\Cors;
 use Core\Database;
@@ -9,7 +9,7 @@ use Core\Request;
 use Core\Response;
 use Core\Router;
 use Core\Session;
-use Repository\GamesRepository;
+use Repository\DataPunchRepository;
 
 session_start();
 require __DIR__ . '/../autoload.php';
@@ -22,13 +22,13 @@ $response = new Response();
 $session = new Session();
 $request = new Request();
 $router = new Router();
-$repository = new GamesRepository(Database::makePdo($config['db']));
+$repository = new DataPunchRepository(Database::makePdo($config['db']));
 
 $appController = new AppController($response, $repository, $session, $request);
 $pingApiController = new PingApiController();
-$gameApiController = new GameApiController($response, $repository);
+//$gameApiController = new GameApiController($response, $repository);
 
 $registerRoutes = require __DIR__ . '/../config/routes.php';
-$registerRoutes($router, $appController, $pingApiController, $gameApiController);
+$registerRoutes($router, $appController);
 $router->dispatch($request, $response);
 
