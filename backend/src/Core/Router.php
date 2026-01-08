@@ -12,7 +12,7 @@ final class Router {
         $this->getRoutes[$path] = $handler;
     }
 
-    public function post(string $path, callable|array $handler) :void {
+    public function post(string $path, callable|array $handler): void {
         $this->postRoutes[$path] = $handler;
     }
 
