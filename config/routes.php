@@ -10,7 +10,7 @@ return function (Router $router, AppController $controller) {
     $router->get('/home', [$controller, 'home']);
     $router->get('/customer/listCustomer', [$controller, 'customer']);
     $router->get('/pagetest', [$controller, 'pagetest']);
-//    $router->get('', [$controller, '']);
+    $router->get('/customer/infoCustomer', [$controller, 'infoCustomer']);
 //    $router->post('', [$controller, '']);
 //    $router->getRegex('#^/games/(\d+)$#', function (Request $req, Response $res, array $m) use ($controller) {
 //        $controller->gameById((int)$m[1]);

@@ -25,6 +25,14 @@ body {
     background-color: var(--shell-dark);
 }
 
+.img_header{
+    width:150px;
+    height:auto;
+    border-radius:16px;
+    margin-bottom:16px;
+    //box-shadow: 0 10px 0 var(--shadow);
+}
+
 .container {
     max-width: 920px;
     margin: 0 auto;

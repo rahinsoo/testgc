@@ -39,6 +39,14 @@ final readonly class AppController {
         ]);
     }
 
+    public function infoCustomer() : void
+    {
+        $clients = $this->customerRepository->findAllClients();
+        $this->response->render('/customer/infoCustomer', [
+            'infoClient' => $clients
+        ]);
+    }
+
     public function pagetest() : void
     {
         $this->response->render('pagetest', [

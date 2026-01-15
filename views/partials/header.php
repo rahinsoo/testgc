@@ -8,12 +8,12 @@
     <title>Data Time</title>
     <link rel="stylesheet" href="/assets/styles.css">
     <link rel="stylesheet" href="/assets/modal.css">
-    <script src="../src/js/modal.js" defer></script>
+    <script src="/js/modal.js" defer></script>
 </head>
 <body>
 <header class="topbar">
     <div class="container topbar__inner">
-        <a href="/"><img src="/img/DATAPUNCH.png"></a>
+        <a href="/"><img class="img_header" src="/img/DATAPUNCH.png"></a>
         <nav class="nav">
             <a class="nav__link" href="/home">Tableau de Bord</a>
             <a class="nav__link" href="/customer/listCustomer">Client</a>
