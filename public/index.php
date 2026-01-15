@@ -28,7 +28,7 @@ $homeRepository = new HomeRepository(Database::makePdo($config['db']));
 $CustomerRepository = new CustomerRepository(Database::makePdo($config['db']));
 
 
-$AppController = new AppController($response,$homeRepository, $CustomerRepository);
+$AppController = new AppController($response,$homeRepository, $CustomerRepository, $request);
 //$userRepository = new UserRepository(Database::makePdo($config['db']));
 //$roleRepository = new RoleRepository(Database::makePdo($config['db']));
 //$userController = new UserController($userRepository, $roleRepository);
