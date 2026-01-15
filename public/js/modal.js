@@ -47,30 +47,30 @@ document.addEventListener('DOMContentLoaded', function() {
         const type = document.getElementById('type').value.trim();
         const adresse = document.getElementById('adresse').value.trim();
 
-        // Validation du nom (2-100 caractères, lettres, espaces, tirets)
-        if (!nom || nom.length < 2 || nom.length > 100) {
-            showError('nom', 'Le nom doit contenir entre 2 et 100 caractères');
+        // Validation du nom (using validation config)
+        if (!nom || nom.length < VALIDATION_LENGTHS.name.min || nom.length > VALIDATION_LENGTHS.name.max) {
+            showError('nom', `Le nom doit contenir entre ${VALIDATION_LENGTHS.name.min} et ${VALIDATION_LENGTHS.name.max} caractères`);
             isValid = false;
-        } else if (!/^[a-zA-ZÀ-ÿ\s\-']+$/.test(nom)) {
+        } else if (!VALIDATION_PATTERNS.name.test(nom)) {
             showError('nom', 'Le nom ne peut contenir que des lettres, espaces et tirets');
             isValid = false;
         }
 
-        // Validation SIRET (14 chiffres)
-        if (!siret || !/^\d{14}$/.test(siret)) {
+        // Validation SIRET (using validation config)
+        if (!siret || !VALIDATION_PATTERNS.siret.test(siret)) {
             showError('numero_SIRET', 'Le numéro SIRET doit contenir exactement 14 chiffres');
             isValid = false;
         }
 
-        // Validation du type (non vide, 2-50 caractères)
-        if (!type || type.length < 2 || type.length > 50) {
-            showError('type', 'Le type doit contenir entre 2 et 50 caractères');
+        // Validation du type (using validation config)
+        if (!type || type.length < VALIDATION_LENGTHS.type.min || type.length > VALIDATION_LENGTHS.type.max) {
+            showError('type', `Le type doit contenir entre ${VALIDATION_LENGTHS.type.min} et ${VALIDATION_LENGTHS.type.max} caractères`);
             isValid = false;
         }
 
-        // Validation de l'adresse (5-200 caractères)
-        if (!adresse || adresse.length < 5 || adresse.length > 200) {
-            showError('adresse', 'L\'adresse doit contenir entre 5 et 200 caractères');
+        // Validation de l'adresse (using validation config)
+        if (!adresse || adresse.length < VALIDATION_LENGTHS.adresse.min || adresse.length > VALIDATION_LENGTHS.adresse.max) {
+            showError('adresse', `L'adresse doit contenir entre ${VALIDATION_LENGTHS.adresse.min} et ${VALIDATION_LENGTHS.adresse.max} caractères`);
             isValid = false;
         }
 

@@ -7,6 +7,7 @@ use Core\Session;
 use Helper\Debug;
 use Helper\Csrf;
 use Helper\Validator;
+use Helper\ValidationConfig;
 use JetBrains\PhpStorm\NoReturn;
 use Core\Response;
 use Repository\HomeRepository;
@@ -80,10 +81,26 @@ final readonly class AppController {
 
         // Validate input
         $validator = new Validator();
-        $validator->validateString('nom', $nom, 2, 100, '/^[a-zA-ZÀ-ÿ\s\-\']+$/u');
+        $validator->validateString(
+            'nom', 
+            $nom, 
+            ValidationConfig::LENGTHS['name']['min'], 
+            ValidationConfig::LENGTHS['name']['max'], 
+            ValidationConfig::PATTERNS['name']
+        );
         $validator->validateSiret('numero_SIRET', $numero_siret);
-        $validator->validateString('type', $type, 2, 50);
-        $validator->validateString('adresse', $adresse, 5, 200);
+        $validator->validateString(
+            'type', 
+            $type, 
+            ValidationConfig::LENGTHS['type']['min'], 
+            ValidationConfig::LENGTHS['type']['max']
+        );
+        $validator->validateString(
+            'adresse', 
+            $adresse, 
+            ValidationConfig::LENGTHS['adresse']['min'], 
+            ValidationConfig::LENGTHS['adresse']['max']
+        );
 
         if ($validator->hasErrors()) {
             $this->response->render('/customer/listCustomer', [
@@ -112,8 +129,7 @@ final readonly class AppController {
 
             if ($success) {
                 // Redirect to avoid form resubmission
-                header('Location: /customer/listCustomer?success=1');
-                exit;
+                $this->response->redirect('/customer/listCustomer?success=1');
             } else {
                 $this->response->render('/customer/listCustomer', [
                     'listClient' => $this->customerRepository->findAllClients(),
@@ -121,9 +137,12 @@ final readonly class AppController {
                 ]);
             }
         } catch (\Exception $e) {
+            // Log the error for debugging (if logging is implemented)
+            // error_log('Customer creation error: ' . $e->getMessage());
+            
             $this->response->render('/customer/listCustomer', [
                 'listClient' => $this->customerRepository->findAllClients(),
-                'error' => 'Une erreur est survenue: ' . Validator::sanitize($e->getMessage())
+                'error' => 'Une erreur est survenue lors de la création du client. Veuillez réessayer.'
             ]);
         }
     }

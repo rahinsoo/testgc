@@ -28,12 +28,12 @@ readonly final class CustomerRepository {
     ): bool
     {
         $sql = "INSERT INTO ENTREPRISE (nom, numero_SIRET, type, information, adresse) 
-                VALUES (:nom, :numero_siret, :type, :information, :adresse)";
+                VALUES (:nom, :numero_SIRET, :type, :information, :adresse)";
         $stmt = $this->pdo->prepare($sql);
 
         return $stmt->execute([
             'nom' => $nom,
-            'numero_siret' => $numero_siret,
+            'numero_SIRET' => $numero_siret,
             'type' => $type,
             'information' => $information,
             'adresse' => $adresse

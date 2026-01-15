@@ -8,6 +8,7 @@
     <title>Data Time</title>
     <link rel="stylesheet" href="/assets/styles.css">
     <link rel="stylesheet" href="/assets/modal.css">
+    <script src="/js/validation-config.js"></script>
     <script src="/js/modal.js" defer></script>
 </head>
 <body>
