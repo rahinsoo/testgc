@@ -1,48 +1,154 @@
+/* ===================================
+   🔲 MODAL
+   =================================== */
 .modal {
-    display: none;
-    position: fixed;
+    display: none;            /* Masqué par défaut */
+    position: fixed;          /* Position fixe par rapport à la fenêtre (ne scroll pas) */
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
+    background-color: var(--overlay, rgba(0, 0, 0, 0.65));
+    z-index: 1000;            /* Au-dessus de tout le contenu */
+    backdrop-filter: blur(4px);    /* Effet de flou sur le contenu derrière */
+    -webkit-backdrop-filter: blur(4px);
+    animation: fadeIn 0.3s ease;   /* animation - Applique l'animation nommée "fadeIn" */
+}
+
+@keyframes fadeIn {          /* @keyframes - Définit une animation nommée */
+    from {                   /* État de départ (équivalent à 0%) */
+        opacity: 0;          /* opacity - Transparence (0=invisible, 1=opaque) */
+    }
+    to {                     /* État final (équivalent à 100%) */
+        opacity: 1;
+    }
 }
 
 .modal--active {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 20px;
 }
 
 .modal__content {
-    background: #f7f7ea;
-    padding: 2rem;
-    border-radius: 8px;
-    max-width: 500px;
-    width: 90%;
+    background: var(--card, #403D39);
+    padding: 28px;
+    border-radius: 16px;
+    border: 3px solid var(--border, #EB5E28);
+    box-shadow: 0 15px 30px var(--shadow-strong, rgba(0, 0, 0, 0.35));
+    max-width: 560px;
+    width: 100%;
     position: relative;
+    animation: slideUp 0.3s ease;
+    color: var(--ink, #FFFCF2);
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(30px);  /* Commence 30px plus bas */
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);     /* Position finale normale */
+        opacity: 1;
+    }
+}
+
+.modal__content h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: var(--ink, #FFFCF2);
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .modal__close {
     position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 1.5rem;
+    top: 14px;
+    right: 18px;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--ink, #FFFCF2);
     cursor: pointer;
+    line-height: 1;           /* Hauteur de ligne = taille de police (pas d'espacement vertical) */
+    transition: transform 0.2s ease, color 0.2s ease;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal__close:hover {
+    transform: rotate(90deg) scale(1.1);  /* rotate() = rotation, scale() = agrandissement */
+    color: var(--accent, #ff4d6d);
 }
 
 .form-group {
-    margin-bottom: 1rem;
+    margin-bottom: 18px;
+}
+
+.form-group:last-of-type {   /* :last-of-type - Dernier élément de ce type dans son parent */
+    margin-bottom: 24px;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 0.5rem;
+    margin-bottom: 8px;
+    font-weight: 700;
+    color: var(--ink, #FFFCF2);
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .form-group input,
-.form-group textarea {
+.form-group textarea,
+.form-group select {
     width: 100%;
-    padding: 0.5rem;
+    padding: 12px 14px;
+    border: 3px solid var(--border, #EB5E28);
+    border-radius: 10px;
+    background: var(--ink, #FFFCF2);
+    color: var(--shell-dark, #252422);
+    font-size: 15px;
+    font-family: inherit;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--accent2, #3a86ff);
+    box-shadow: 0 0 0 3px rgba(58, 134, 255, 0.25);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.form-group input[type="checkbox"] {  /* Sélecteur d'attribut spécifique pour les checkboxes */
+    width: auto;              /* Ne prend pas toute la largeur */
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+/* Responsive modal */
+@media (max-width: 600px) {
+    .modal__content {
+        padding: 20px;
+        max-width: 100%;
+    }
+
+    .modal__content h2 {
+        font-size: 20px;
+    }
+
+    .modal__close {
+        font-size: 28px;
+    }
 }

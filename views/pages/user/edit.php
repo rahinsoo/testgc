@@ -1,4 +1,3 @@
-/*<?php
 /** @var User $user */
 /** @var array $roles */
 ?>

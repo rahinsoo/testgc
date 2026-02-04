@@ -28,4 +28,15 @@ final class Session {
         unset($_SESSION['flash_' . $key]);
         return $value;
     }
+
+    public function isLogged(): bool
+    {
+        return isset($_SESSION['user']);
+    }
+
+    public function isAdmin(): bool
+    {
+        return isset($_SESSION['user']['id_user_role'])
+            && $_SESSION['user']['id_user_role'] === 1;
+    }
 }

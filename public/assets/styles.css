@@ -1,232 +1,547 @@
+/* ===================================
+   🎨 VARIABLES CSS
+   =================================== */
 :root {
-    --bg: #e8f0c9;
-    --ink: #1a2a1a;
-    --ink-soft: #2e3f2e;
+    /* Variables CSS personnalisées (Custom Properties) - Permettent de réutiliser des valeurs dans tout le CSS */
+    --bg: #252422;
+    --ink: #FFFCF2;
+    --ink-soft: #E8E5DD;
+    --ink-dark: #252422;
     --shell: #c9c3e6;
-    --shell-dark: #a9a3c8;
+    --shell-dark: #252422;
     --accent: #ff4d6d;
     --accent2: #3a86ff;
-    --card: #f7f7ea;
-    --border: #1a2a1a;
-    --shadow: rgba(0, 0, 0, .18);
+    --accent-success: #4caf50;
+    --card: #403D39;
+    --border: #EB5E28;
+    --shadow: rgba(0, 0, 0, .18);              /* rgba() - Couleur avec transparence (alpha) */
+    --shadow-strong: rgba(0, 0, 0, .35);
+    --overlay: rgba(0, 0, 0, 0.65);
 }
 
+/* ===================================
+   🔧 RESET & BASE
+   =================================== */
 * {
-    box-sizing: border-box;
+    box-sizing: border-box;    /* Inclut padding et border dans la largeur/hauteur totale */
+    margin: 0;                 /* Supprime les marges par défaut du navigateur */
+    padding: 0;                /* Supprime les paddings par défaut du navigateur */
 }
 
 body {
     margin: 0;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-    color: var(--ink);
-    /*background:*/
-    /*        radial-gradient(circle at 12px 12px, rgba(0, 0, 0, .06) 2px, transparent 3px) 0 0 / 18px 18px,*/
-    /*        linear-gradient(180deg, var(--shell) 0%, var(--shell-dark) 100%);*/
-    background-color: var(--shell-dark);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    /* Fallback fonts - Si la 1ère police n'est pas disponible, utilise la suivante */
+    color: var(--ink);         /* var() - Utilise une variable CSS déclarée dans :root */
+    background-color: var(--bg);
+    line-height: 1.6;          /* Hauteur de ligne (espacement vertical entre les lignes de texte) */
+    min-height: 100vh;         /* vh = viewport height (100vh = 100% de la hauteur de l'écran) */
+    display: flex;             /* Active le modèle Flexbox pour disposition flexible */
+    flex-direction: column;    /* Empile les éléments verticalement */
 }
 
-.img_header{
-    width:150px;
-    height:auto;
-    border-radius:16px;
-    margin-bottom:16px;
-    //box-shadow: 0 10px 0 var(--shadow);
+main {
+    /*flex: 1;                   !* Prend tout l'espace disponible (pousse le footer en bas) *!*/
+    margin: 20px;
 }
 
+/* ===================================
+   🖼️ IMAGES
+   =================================== */
+.img_header {
+    width: 150px;
+    height: auto;              /* Conserve le ratio de l'image */
+    border-radius: 16px;       /* Coins arrondis */
+    margin-bottom: 16px;
+    /*box-shadow: 0 10px 0 var(--shadow);  !* box-shadow: x y blur spread color *!*/
+}
+
+/* ===================================
+   📦 CONTAINER
+   =================================== */
 .container {
-    max-width: 920px;
-    margin: 0 auto;
-    padding: 16px;
+    /*max-width: 1024px;*/     /* Largeur maximale (commenté pour largeur pleine) */
+    margin: 0 auto;            /* auto = centre horizontalement */
+    padding: 20px;             /* Espacement intérieur */
+    /*width: 100%;*/
+    display: flex;
+    flex-wrap : wrap;
+    justify-content: center;
 }
 
+/* ===================================
+   CUSTOMER
+   =================================== */
+.container__card{
+    width: 200px;
+    padding: 5px;
+    /*margin: 5px;*/
+    /*grid-column-start: 2;*/
+    /*grid-column-end: five;*/
+    /*grid-row-start: row1-start;*/
+    /*grid-row-end: 3;*/
+}
+
+/* ===================================
+   🔝 TOPBAR / HEADER
+   =================================== */
 .topbar {
-    position: sticky;
-    top: 0;
-    z-index: 5;
+    position: sticky;          /* Reste visible lors du scroll (entre relative et fixed) */
+    top: 0;                    /* Collé en haut de l'écran */
+    z-index: 100;              /* Ordre d'empilement (plus élevé = au-dessus) */
     background: linear-gradient(180deg, rgba(255, 255, 255, .55), rgba(255, 255, 255, .25));
-    backdrop-filter: blur(6px);
+    /* linear-gradient - Dégradé linéaire (angle, couleur-début, couleur-fin) */
+    backdrop-filter: blur(8px);           /* Effet de flou sur l'arrière-plan (nécessite transparence) */
+    -webkit-backdrop-filter: blur(8px);   /* Préfixe pour Safari */
     border-bottom: 4px solid var(--border);
+    box-shadow: 0 4px 12px var(--shadow); /* Ombre portée */
 }
 
 .topbar__inner {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
+    align-items: center;       /* Alignement vertical au centre */
+    justify-content: space-between;  /* Espace maximum entre les éléments */
+    gap: 16px;                 /* Espacement entre éléments flex */
+    padding: 12px;
 }
 
 .brand {
-    letter-spacing: .5px;
-    padding: 8px 10px;
-    background: var(--bg);
+    letter-spacing: 0.8px;     /* Espacement entre les lettres */
+    padding: 10px 14px;        /* padding: vertical horizontal */
+    background: var(--ink);
     border: 3px solid var(--border);
     border-radius: 12px;
     box-shadow: 0 6px 0 var(--shadow);
-    text-transform: uppercase;
+    text-transform: uppercase; /* Transforme le texte en majuscules */
+    font-weight: 700;          /* Épaisseur de la police (100-900, 400=normal, 700=bold) */
+    text-decoration: none;     /* Supprime le soulignement des liens */
+    color: var(--shell-dark);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    /* transition - Animation fluide (propriété durée fonction-timing) */
 }
 
+.brand:hover {                 /* :hover - Pseudo-classe appliquée au survol */
+    transform: translateY(-2px);  /* Déplace l'élément sur l'axe Y (négatif = vers le haut) */
+    box-shadow: 0 8px 0 var(--shadow);
+}
+
+/* ===================================
+   🧭 NAVIGATION
+   =================================== */
 .nav {
     display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
+    gap: 12px;
+    flex-wrap: wrap;           /* Permet aux éléments de passer à la ligne si nécessaire */
+    align-items: center;
 }
 
 .nav__link {
     text-decoration: none;
     color: var(--ink);
-    background: var(--bg);
-    padding: 8px 10px;
-    border: 3px solid var(--border);
-    border-radius: 12px;
+    background: var(--card);
+    padding: 10px 14px;
+    /*border: 3px solid var(--border);*/
+    border-radius: 10px;
     box-shadow: 0 6px 0 var(--shadow);
-}
-
-h1 {
-    margin: 12px 0 6px;
-    font-size: 28px;
-    letter-spacing: 1px;
     text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    /* Plusieurs propriétés peuvent être animées séparément */
 }
 
-.sub {
-    margin: 0 0 16px;
+.nav__link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 0 var(--shadow);
+    background: #4a4845;       /* Couleur directe (sans variable) */
+}
+
+.nav__link:active {            /* :active - État lorsque l'élément est cliqué */
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 var(--shadow);
+}
+
+/* ===================================
+   📝 TYPOGRAPHY
+   =================================== */
+h1 {
+    margin: 20px 0 12px;       /* margin: top right/left bottom */
+    font-size: 32px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    font-weight: 800;
+    color: var(--ink);
+    text-align: center;
+}
+
+h2 {
+    font-size: 24px;
+    margin: 16px 0 10px;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--ink);
+}
+
+h3 {
+    font-size: 20px;
+    margin: 12px 0 8px;
+    letter-spacing: 0.6px;
+    color: var(--ink);
+}
+
+p {
+    margin: 8px 0;
     color: var(--ink-soft);
 }
 
+.sub {
+    margin: 0 0 20px;
+    color: var(--ink-soft);
+    font-size: 16px;
+}
+
+/* ===================================
+   🎴 CARDS
+   =================================== */
 .card {
     background: var(--card);
     border: 3px solid var(--border);
-    border-radius: 16px;
-    padding: 14px;
-    margin: 14px 0;
+    border-radius: 10px;
+    padding: 18px;
+    margin: 16px 0;
     box-shadow: 0 10px 0 var(--shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 13px 0 var(--shadow);
 }
 
 .card__title {
-    margin: 0 0 8px;
-    font-size: 18px;
-    letter-spacing: .5px;
+    /*margin: 0 0 10px;*/
+    font-size: 20px;
+    letter-spacing: 0.6px;
+    font-weight: 700;
+    color: var(--ink);
 }
 
+/* ===================================
+   🏷️ META & BADGES
+   =================================== */
 .meta {
     font-size: 13px;
     color: var(--ink-soft);
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
-    margin-top: 6px;
+    margin-top: 10px;
+    align-items: center;
 }
 
 .badge {
-    display: inline-flex;
-    padding: 6px 8px;
+    display: inline-flex;      /* Flexbox inline (ne prend que l'espace nécessaire) */
+    padding: 6px 10px;
     border: 2px solid var(--border);
-    border-radius: 999px;
-    background: var(--bg);
+    border-radius: 999px;      /* Valeur très élevée = forme de pilule */
+    background: var(--shell);
     box-shadow: 0 4px 0 var(--shadow);
     font-size: 12px;
     text-transform: uppercase;
-    letter-spacing: .4px;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+    color: var(--ink-dark);
 }
 
-.btn {
+/* ===================================
+   🔘 BUTTONS
+   =================================== */
+.btn,
+button[type="submit"],        /* Sélecteur d'attribut - Cible les boutons de type submit */
+.btn-submit,
+.btn-create {
     display: inline-flex;
+    align-items: center;
+    justify-content: center;   /* Centre le contenu horizontalement */
     text-decoration: none;
-    color: #fff;
-    background: var(--accent);
-    padding: 10px 12px;
-    border: 3px solid var(--border);
-    border-radius: 14px;
+    color: var(--ink);
+    background: var(--border);
+    padding: 12px 18px;
+    border: 0px solid var(--border);
+    border-radius: 10px;
     box-shadow: 0 8px 0 var(--shadow);
     margin-top: 12px;
     text-transform: uppercase;
-    letter-spacing: .5px;
-    cursor: pointer;
+    letter-spacing: 0.6px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;           /* Change le curseur en main pointer */
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    font-family: inherit;      /* Hérite de la police du parent */
 }
 
-.btn--alt {
+.btn:hover,
+button[type="submit"]:hover,
+.btn-submit:hover,
+.btn-create:hover {
+    color: var(--ink-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 0 var(--shadow);
+    background: var(--shell);;
+}
+
+.btn:active,
+button[type="submit"]:active {
+    transform: translateY(2px);
+    box-shadow: 0 4px 0 var(--shadow);
+}
+
+.btn--alt {                    /* Modificateur BEM (Block Element Modifier) */
     background: var(--accent2);
 }
 
+.btn--alt:hover {
+    background: #2b6fd9;
+}
+
+.btn--success {
+    background: var(--accent-success);
+}
+
+.btn--success:hover {
+    background: #45a049;
+}
+
+/* ===================================
+   📋 FORMS
+   =================================== */
+.form {
+    max-width: 560px;
+    display: grid;             /* Active le modèle Grid pour disposition en grille */
+    gap: 16px;                 /* Espacement entre éléments de grille */
+}
+
+.field,
+.form-group {
+    margin-bottom: 16px;
+}
+
+.field label,
+.form-group label {
+    display: block;            /* Prend toute la largeur disponible */
+    margin-bottom: 8px;
+    font-weight: 700;
+    color: var(--ink);
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.field input,
+.field textarea,
+.field select,
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 3px solid var(--border);
+    border-radius: 10px;
+    background: var(--ink);
+    color: var(--shell-dark);
+    font-size: 15px;
+    font-family: inherit;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field input:focus,          /* :focus - État lorsque l'élément a le focus (cliqué/sélectionné) */
+.field textarea:focus,
+.field select:focus,
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;            /* Supprime le contour par défaut du navigateur */
+    border-color: var(--accent2);
+    box-shadow: 0 0 0 3px rgba(58, 134, 255, 0.2);
+    /* box-shadow avec blur=0 et spread=3px crée un effet de "ring" */
+}
+
+.field textarea,
+.form-group textarea {
+    resize: vertical;         /* Permet uniquement le redimensionnement vertical */
+    min-height: 100px;
+}
+
+.two-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;  /* fr = fraction d'espace disponible (1fr 1fr = 2 colonnes égales) */
+    gap: 16px;
+}
+
+.error {
+    margin: 6px 0 0;
+    color: var(--accent);
+    font-size: 0.9rem;        /* rem = relative à la taille de police racine (html) */
+    font-weight: 600;
+}
+
+/* ===================================
+   ⚠️ ALERTS
+   =================================== */
+.alert {
+    padding: 14px 18px;
+    border-radius: 12px;
+    margin: 16px 0;
+    border: 3px solid;        /* Couleur définie dans les modificateurs */
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.alert--success,
+.alert-success {
+    background: #d4edda;
+    border-color: #28a745;
+    color: #155724;
+}
+
+.alert--error,
+.alert-error {
+    background: #f8d7da;
+    border-color: #dc3545;
+    color: #721c24;
+}
+
+.alert--info {
+    background: #d1ecf1;
+    border-color: #17a2b8;
+    color: #0c5460;
+}
+
+/* ===================================
+   👋 WELCOME SECTION
+   =================================== */
+.welcome-section {
+    margin: 24px 0;
+    padding: 24px;
+    /* Styles de card commentés pour un rendu plus simple */
+    /*background: var(--card);*/
+    /*border: 3px solid var(--border);*/
+    /*border-radius: 16px;*/
+    /*box-shadow: 0 10px 0 var(--shadow);*/
+}
+
+.welcome-section h1 {
+    margin-top: 0;
+    font-size: 36px;
+}
+
+.welcome-section p {
+    font-size: 18px;
+    color: var(--ink-soft);
+    margin: 12px 0 0;
+}
+
+/* ===================================
+   👥 CLIENTS LIST
+   =================================== */
+.clients-list {
+    margin: 24px 0;
+}
+
+.clients-list h2 {
+    margin-bottom: 16px;
+}
+
+/* ===================================
+   🦶 FOOTER
+   =================================== */
 .footer {
-    margin-top: 28px;
+    margin-top: 40px;
     border-top: 4px solid var(--border);
-    background: linear-gradient(180deg, rgba(255,255,255, .18), rgba(255,255,255, .08));
+    background: linear-gradient(180deg, rgba(255, 255, 255, .18), rgba(255, 255, 255, .08));
 }
 
 .footer__inner {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    padding: 14px 16px;
+    gap: 12px;
+    padding: 16px 20px;
     color: var(--ink-soft);
     font-size: 12px;
     text-transform: uppercase;
-    letter-spacing: .6px;
+    letter-spacing: 0.8px;
+    font-weight: 600;
 }
 
 .footer__dot {
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     border-radius: 999px;
     background: var(--bg);
     border: 3px solid var(--border);
     box-shadow: 0 4px 0 var(--shadow);
 }
 
+/* ===================================
+   🚫 ERROR 404
+   =================================== */
 .error-404 {
-    margin-top: 24px;
+    margin-top: 40px;
     display: flex;
     justify-content: center;
+    padding: 20px;
 }
 
 .error-404__card {
     width: 100%;
-    max-width: 720px;
-    position: relative;
-    overflow: hidden;
+    max-width: 760px;
+    position: relative;       /* Contexte de positionnement pour les enfants en position absolute */
+    overflow: hidden;         /* Cache le contenu qui dépasse */
 }
 
-.error-404__card::before {
-    content: "";
-    position: absolute;
-    inset: -40px -40px auto auto;
-    width: 180px;
-    height: 180px;
-    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.45), rgba(255,255,255,0) 65%);
-    transform: rotate(18deg);
-    pointer-events: none;
+.error-404__card::before {   /* ::before - Pseudo-élément inséré AVANT le contenu */
+    content: "";              /* Obligatoire pour afficher le pseudo-élément */
+    position: absolute;       /* Positionné par rapport au parent relatif */
+    inset: -40px -40px auto auto;  /* Raccourci pour top right bottom left */
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, .45), rgba(255, 255, 255, 0) 65%);
+    /* radial-gradient - Dégradé circulaire (forme at position, couleurs) */
+    transform: rotate(18deg); /* Rotation de l'élément */
+    pointer-events: none;     /* Désactive les interactions souris (clics traversent l'élément) */
 }
 
 .error-404__top {
     display: flex;
-    gap: 10px;
+    gap: 12px;
     flex-wrap: wrap;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 
 .error-404__title {
-    margin: 8px 0 6px;
+    margin: 10px 0 8px;
 }
 
 .error-404__text {
-    max-width: 60ch;
+    max-width: 65ch;          /* ch = largeur du caractère "0" (65 caractères max) */
+    line-height: 1.7;
 }
 
 .error-404__actions {
     display: flex;
-    gap: 10px;
+    gap: 12px;
     flex-wrap: wrap;
-    margin-top: 12px;
+    margin-top: 16px;
 }
 
 .error-404__hint {
-    margin-top: 14px;
-    padding-top: 12px;
-    border-top: 2px dashed rgba(0,0,0,.25);
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 2px dashed rgba(255, 255, 255, .25);  /* Bordure en pointillés */
     display: flex;
-    gap: 10px;
+    gap: 12px;
     align-items: center;
     flex-wrap: wrap;
 }
@@ -236,23 +551,72 @@ h1 {
     color: var(--ink-soft);
 }
 
+/* ===================================
+   📱 RESPONSIVE
+   Media Queries - Applique des styles selon les conditions (largeur écran, orientation, etc.)
+   =================================== */
+@media (max-width: 768px) {  /* @media - S'applique si la largeur d'écran est ≤ 768px (tablettes) */
+    .container {
+        padding: 16px;
+    }
 
-@media (max-width: 520px) {
+    h1 {
+        font-size: 26px;
+    }
+
+    h2 {
+        font-size: 22px;
+    }
+
+    .brand {
+        font-size: 13px;
+        padding: 8px 12px;
+    }
+
+    .nav {
+        gap: 8px;
+    }
+
+    .nav__link {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+
+    .topbar__inner {
+        flex-direction: column;  /* Empile verticalement sur mobile */
+        align-items: stretch;    /* Étire les éléments sur toute la largeur */
+    }
+
+    .nav {
+        justify-content: center;
+    }
+
+    .two-cols {
+        grid-template-columns: 1fr;  /* Une seule colonne sur mobile */
+    }
+
+    .welcome-section h1 {
+        font-size: 28px;
+    }
+
+    .card {
+        padding: 14px;
+    }
+}
+
+@media (max-width: 480px) {  /* Smartphones */
     h1 {
         font-size: 22px;
     }
 
     .brand {
-        font-size: 14px;
+        font-size: 12px;
+    }
+
+    .btn,
+    .btn-submit,
+    .btn-create {
+        padding: 10px 14px;
+        font-size: 13px;
     }
 }
-
-.form { max-width: 520px; display: grid; gap: 14px; }
-.field label { display:block; margin-bottom:6px; font-weight:600; }
-.field input, .field textarea { width:100%; padding:10px; border:1px solid #ddd; border-radius:10px; }
-.two-cols { display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
-.error { margin:6px 0 0; color:#b00020; font-size: 0.9rem; }
-.btn { padding:10px 14px; border:0; border-radius:12px; cursor:pointer; }
-.alert { padding:12px 14px; border-radius:12px; margin: 12px 0; }
-.alert--success { background:#eef9f0; border:1px solid #bfe7c7; }
-

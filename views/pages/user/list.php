@@ -1,14 +1,5 @@
 <?php $users = $users ?? []; ?>
 
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Liste des utilisateurs</title>
-</head>
-
-<body>
-
 <h1>Utilisateurs</h1>
 
 <a href="/users/create">➕ Ajouter un utilisateur</a>
@@ -45,6 +36,3 @@
     <?php endforeach; ?>
     </tbody>
 </table>
-
-</body>
-</html>

@@ -8,15 +8,14 @@ use Model\User;
 readonly class UserRepository
 {
     public function __construct(private PDO $pdo)
-    {
-    }
+    {}
 
     /// CREATE ///
     public function createUser(
         string $nom,
         string $prenom,
         string $identifiant,
-        string $password,
+        string $passwordHashed,
         int    $id_user_role
     ): bool
     {
@@ -28,7 +27,7 @@ readonly class UserRepository
             'nom' => $nom,
             'prenom' => $prenom,
             'identifiant' => $identifiant,
-            'password' => password_hash($password, PASSWORD_DEFAULT),
+            'password' => $passwordHashed,
             'role' => $id_user_role
         ]);
     }
@@ -63,7 +62,16 @@ readonly class UserRepository
     }
 
     public function readOne(int $id_user) : User | false {
-        $sql = $this->pdo->prepare("SELECT * FROM utilisateur WHERE id_user = :id_user");
+        $sql = $this->pdo->prepare("SELECT
+        u.id_user,
+        u.nom,
+        u.prenom,
+        u.identifiant,
+        u.id_user_role,
+        r.role
+        FROM utilisateur u
+        LEFT JOIN user_role r ON u.id_user_role = r.id_user_role 
+        WHERE id_user = :id_user");
         $sql->execute(['id_user' => $id_user]);
         $row = $sql->fetch(PDO::FETCH_ASSOC);
 
@@ -76,8 +84,9 @@ readonly class UserRepository
             $row['nom'],
             $row['prenom'],
             $row['identifiant'],
-            $row['password'],
-            $row['id_user_role']
+            '',
+            $row['id_user_role'],
+            $row['role']
         );
     }
 
@@ -105,7 +114,7 @@ readonly class UserRepository
     }
 
     /// UPDATE / MODIF juste du password ///
-    public function updatePassword(int $id_user, string $password): bool
+    public function updatePassword(int $id_user, string $passwordHashed): bool
     {
         $stmt = $this->pdo->prepare(
             "UPDATE utilisateur SET password = :password WHERE id_user = :id_user"
@@ -113,7 +122,7 @@ readonly class UserRepository
 
         return $stmt->execute([
             'id_user' => $id_user,
-            'password' => password_hash($password, PASSWORD_DEFAULT)
+            'password' => $passwordHashed
         ]);
     }
 
@@ -125,5 +134,19 @@ readonly class UserRepository
         );
 
         return $stmt->execute(['id_user' => $id_user]);
+    }
+
+    public function findByIdentifiant(string $identifiant): ?array
+    {
+        $sql = $this->pdo->prepare(
+            "SELECT * FROM utilisateur WHERE identifiant = :identifiant"
+        );
+
+        $sql->bindValue(':identifiant', $identifiant);
+        $sql->execute();
+
+        $user = $sql->fetch(\PDO::FETCH_ASSOC);
+
+        return $user ?: null;
     }
 }

@@ -8,7 +8,6 @@ use Helper\Debug;
 use JetBrains\PhpStorm\NoReturn;
 use Core\Response;
 use Repository\HomeRepository;
-use Repository\CustomerRepository;
 
 require_once __DIR__ . '/../Helper/Debug.php';
 
@@ -17,12 +16,17 @@ final readonly class AppController {
     public function __construct(
         private Response $response,
         private HomeRepository $homeRepository,
-        private CustomerRepository $customerRepository,
-        //private Session $session,
-        //private Request $request,
+        private Session $session,
+        private Request $request,
     ) {}
 
     public function home() : void {
+        // ✅ SÉCURISATION :  vérifier si connecté
+        if (!$this->session->isLogged()) {
+            header('Location: /login');
+            exit;
+        }
+
         $clients = $this->homeRepository->findAllClients();
 
         $this->response->render('home', [
@@ -31,19 +35,31 @@ final readonly class AppController {
         ]);
     }
 
-    public function customer() : void
+    public function profile(): void
     {
-        $clients = $this->customerRepository->findAllClients();
-        $this->response->render('/customer/listCustomer', [
-            'listClient' => $clients
+        // Vérifier l'authentification
+        if (!$this->session->isLogged()) {
+            header('Location: /login');
+            exit;
+        }
+
+        // Afficher la page de paramètres
+        $this->response->render('profile', [
+            'user' => $this->session->get('user')
         ]);
     }
 
-    public function infoCustomer() : void
+    public function settings(): void
     {
-        $clients = $this->customerRepository->findAllClients();
-        $this->response->render('/customer/infoCustomer', [
-            'infoClient' => $clients
+        // Vérifier l'authentification
+        if (!$this->session->isLogged()) {
+            header('Location: /login');
+            exit;
+        }
+
+        // Afficher la page de paramètres
+        $this->response->render('settings', [
+            'user' => $this->session->get('user')
         ]);
     }
 
@@ -56,6 +72,5 @@ final readonly class AppController {
     public function notFound() : void {
         $this->response->render('not-found', [], 404);
     }
-
 
 }

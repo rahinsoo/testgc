@@ -19,31 +19,4 @@ readonly final class HomeRepository {
         return $sql->fetch(PDO::FETCH_COLUMN);
     }
 
-//    public function readAll(): array
-//    {
-//        $sql = $this->pdo->query
-//        ("SELECT
-//        u.id_user,
-//        u.nom,
-//        u.prenom,
-//        u.identifiant,
-//        u.id_user_role,
-//        r.role
-//        FROM utilisateur u
-//        LEFT JOIN user_role r ON u.id_user_role = r.id_user_role");
-//        $rows = $sql->fetchAll(PDO::FETCH_ASSOC);
-//
-//        return array_map(function($row) {
-//            return new Client(
-//                $row['id_user'],
-//                $row['nom'],
-//                $row['prenom'],
-//                $row['identifiant'],
-//                '',
-//                $row['id_user_role'],
-//                $row['role']
-//            );
-//        },
-//            $rows);
-//    }
 }

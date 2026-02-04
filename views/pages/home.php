@@ -1,30 +1,31 @@
 <?php
 $clients = $featuredClient ?? [];
 //$total = $total ?? 0;
+$user = $_SESSION['user'] ?? null;
 ?>
 
-    <h1>Bienvenue dans ton espace (home)</h1>
-    <!--<p class="sub">Home — featuring --><?php //= count($games) ?><!-- games.</p>-->
-    <!---->
-    <!--<section class="card">-->
-    <!--    <div class="meta">-->
-    <!--        <span class="badge">Total: --><?php //= (int)$total ?><!--</span>-->
-    <!--        <span class="badge">Featured: --><?php //= count($games) ?><!--</span>-->
-    <!--    </div>-->
-    <!--</section>-->
-    <!---->
-    <!--<a href="/random" class="btn">🎲 Random game</a>-->
-    <!---->
-<?php foreach ($clients as $client): ?>
-        <article class="card">
-            <h2 class="card__title"><?= $client['nom'] ?></h2>
+<section class="welcome-section">
+    <h1>Bienvenue <?= htmlspecialchars($user['prenom'] ?? '') ?> ! 👋</h1>
+    <p>Vous êtes connecté sur votre espace DataTime</p>
+</section>
 
-            <div class="meta">
-                <span class="badge"><?= (int) $client['numero_SIRET'] ?></span>
-                <span class="badge"><?= $client['type'] ?></span>
-                <span class="badge"><?= $client['information'] ?></span>
-                <span class="badge"><?= $client['adresse'] ?></span>
-            </div>
-<!--            <a href="/games/--><?php //= $client['id'] ?><!--">Naviguer vers le détail</a>-->
-        </article>
-<?php endforeach; ?>
+
+
+    <section class="clients-list">
+        <h2>Vos clients</h2>
+        <?php if (empty($clients)): ?>
+            <p>Aucun client pour le moment.</p>
+        <?php else: ?>
+            <?php foreach ($clients as $client): ?>
+                    <article class="card">
+                        <h3 class="card__title"><?= htmlspecialchars($client['nom']) ?></h3>
+                        <div class="meta">
+                            <span class="badge"><?= htmlspecialchars((string)$client['numero_SIREN']) ?></span>
+                            <span class="badge"><?= htmlspecialchars($client['type']) ?></span>
+                            <span class="badge"><?= htmlspecialchars($client['information']) ?></span>
+                            <span class="badge"><?= htmlspecialchars($client['adresse']) ?></span>
+                        </div>
+                    </article>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </section>
