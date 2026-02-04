@@ -38,7 +38,7 @@ readonly class CustomerController
     {
         // Récupération des données du formulaire
         $nom = $this->request->getPostParam('nom');
-        $numero_siren = $this->request->getPostParam('numero_SIREN');
+        $numero_siren = $this->request->getPostParam('numero_SIRET');
         $type = $this->request->getPostParam('type');
         $information = $this->request->getPostParam('information') ?? '';
         $adresse = $this->request->getPostParam('adresse');
@@ -104,7 +104,7 @@ readonly class CustomerController
         }
 
         $nom = $this->request->getPostParam('nom');
-        $numero_siren = $this->request->getPostParam('numero_SIREN');
+        $numero_siren = $this->request->getPostParam('numero_SIRET');
         $type = $this->request->getPostParam('type');
         $information = $this->request->getPostParam('information') ?? '';
         $adresse = $this->request->getPostParam('adresse');

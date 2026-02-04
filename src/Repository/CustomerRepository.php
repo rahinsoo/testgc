@@ -20,7 +20,7 @@ readonly class CustomerRepository {
     /// CREATE ///
     public function createClient(
         string $nom,
-        string $numero_siren,
+        string $numero_siret,
         string $type,
         string $information,
         bool $is_facturable,
@@ -28,13 +28,13 @@ readonly class CustomerRepository {
     ): bool
     {
         // ✅ CORRECTION : placeholders correspondent aux colonnes
-        $sql = "INSERT INTO ENTREPRISE (nom, numero_SIREN, type, information, is_facturable, adresse) 
-                VALUES (:nom, :numero_SIREN, :type, :information, :is_facturable, :adresse)";
+        $sql = "INSERT INTO ENTREPRISE (nom, numero_SIRET, type, information, is_facturable, adresse) 
+                VALUES (:nom, :numero_SIRET, :type, :information, :is_facturable, :adresse)";
         $stmt = $this->pdo->prepare($sql);
 
         return $stmt->execute([
             'nom' => $nom,
-            'numero_SIREN' => $numero_siren,
+            'numero_SIRET' => $numero_siret,
             'type' => $type,
             'information' => $information,
             'is_facturable' => $is_facturable ?  1 : 0, // Conversion boolean → int
@@ -46,7 +46,7 @@ readonly class CustomerRepository {
     public function updateClient(
         int $id_entreprise,
         string $nom,
-        string $numero_siren,
+        string $numero_siret,
         string $type,
         string $information,
         bool $is_facturable,
@@ -55,7 +55,7 @@ readonly class CustomerRepository {
         $sql = "
             UPDATE ENTREPRISE
             SET nom = :nom,
-                numero_SIREN = :numero_SIREN,
+                numero_SIRET = :numero_SIRET,
                 type = :type,
                 information = :information,
                 is_facturable = :is_facturable,
@@ -67,7 +67,7 @@ readonly class CustomerRepository {
         return $stmt->execute([
             'id_entreprise' => $id_entreprise,
             'nom' => $nom,
-            'numero_SIREN' => $numero_siren,
+            'numero_SIRET' => $numero_siret,
             'type' => $type,
             'information' => $information,
             'is_facturable' => $is_facturable ? 1 : 0,

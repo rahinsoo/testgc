@@ -21,7 +21,7 @@ $clients = $listClient ?? [];
                 </a>
 
                 <div class="meta">
-                    <span class="badge"><?= htmlspecialchars((string)$client['numero_SIREN']) ?></span>
+                    <span class="badge"><?= htmlspecialchars((string)$client['numero_SIRET']) ?></span>
                 </div>
                 <div class="meta">
                     <button class="btn-edit" onclick="openEditModal(<?= $client['id_entreprise'] ?>)">✏️ Edit</button>
@@ -64,10 +64,12 @@ $clients = $listClient ?? [];
             </div>
 
             <div class="form-group">
-                <label for="numero_SIREN">Numéro SIREN *</label>
-                <input type="text" id="numero_SIREN" name="numero_SIREN" required
-                       pattern="[0-9]{9}"
-                       title="Le SIREN doit contenir 9 chiffres">
+                <label for="numero_SIRET">Numéro SIRET *</label>
+                <input type="text" id="numero_SIRET" name="numero_SIRET" required
+                       pattern="[0-9]{14}"
+                       title="Le SIRET doit contenir 14 chiffres"
+                       placeholder="81824197800035">
+                <small id="siret-feedback" class="feedback-message"></small>
             </div>
 
             <div class="form-group">
