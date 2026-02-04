@@ -38,7 +38,7 @@ readonly class CustomerController
     {
         // Récupération des données du formulaire
         $nom = $this->request->getPostParam('nom');
-        $numero_siren = $this->request->getPostParam('numero_SIRET');
+        $numero_siret = $this->request->getPostParam('numero_SIRET');
         $type = $this->request->getPostParam('type');
         $information = $this->request->getPostParam('information') ?? '';
         $adresse = $this->request->getPostParam('adresse');
@@ -46,7 +46,7 @@ readonly class CustomerController
             $this->request->getPostParam('is_facturable') === '1';
 
         // Validation basique
-        if (empty($nom) || empty($numero_siren) || empty($type) || empty($adresse)) {
+        if (empty($nom) || empty($numero_siret) || empty($type) || empty($adresse)) {
             $this->session->flash('error', 'Tous les champs obligatoires doivent être remplis.');
             header('Location: /customer/listCustomer');
             exit;
@@ -55,7 +55,7 @@ readonly class CustomerController
         // Insertion en base
         $success = $this->customerRepository->createClient(
             nom: $nom,
-            numero_siren: $numero_siren,
+            numero_siret: $numero_siret,
             type: $type,
             information: $information,
             is_facturable: $is_facturable,
@@ -104,14 +104,14 @@ readonly class CustomerController
         }
 
         $nom = $this->request->getPostParam('nom');
-        $numero_siren = $this->request->getPostParam('numero_SIRET');
+        $numero_siret = $this->request->getPostParam('numero_SIRET');
         $type = $this->request->getPostParam('type');
         $information = $this->request->getPostParam('information') ?? '';
         $adresse = $this->request->getPostParam('adresse');
         $is_facturable = $this->request->getPostParam('is_facturable') === 'on' ||
             $this->request->getPostParam('is_facturable') === '1';
 
-        if (empty($nom) || empty($numero_siren) || empty($type) || empty($adresse)) {
+        if (empty($nom) || empty($numero_siret) || empty($type) || empty($adresse)) {
             $this->session->flash('error', 'Tous les champs obligatoires doivent être remplis.');
             header('Location: /customer/listCustomer');
             exit;
@@ -120,7 +120,7 @@ readonly class CustomerController
         $success = $this->customerRepository->updateClient(
             id_entreprise: $id,
             nom: $nom,
-            numero_siren: $numero_siren,
+            numero_siret: $numero_siret,
             type: $type,
             information: $information,
             is_facturable: $is_facturable,

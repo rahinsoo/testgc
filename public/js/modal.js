@@ -183,8 +183,7 @@ async function fetchSiretData(siret) {
     // Construction de l'objet de retour
     return {
         nom: etablissement.uniteLegale?.denominationUniteLegale || '',
-        adresse: formatAdresse(etablissement.adresseEtablissement || {}),
-        siren: siret.substring(0, 9) // Les 9 premiers chiffres du SIRET
+        adresse: formatAdresse(etablissement.adresseEtablissement || {})
     };
 }
 
