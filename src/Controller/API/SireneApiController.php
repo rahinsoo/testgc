@@ -33,10 +33,7 @@ readonly class SireneApiController
         
         $options = [
             'http' => [
-                'header' => [
-                    "Authorization: Bearer {$apiKey}",
-                    "Accept: application/json"
-                ],
+                'header' => "Authorization: Bearer {$apiKey}\r\nAccept: application/json",
                 'method' => 'GET'
             ]
         ];
@@ -45,14 +42,18 @@ readonly class SireneApiController
         $response = @file_get_contents($url, false, $context);
 
         if ($response === false) {
-            $error = error_get_last();
-            if (strpos($error['message'], '404') !== false) {
-                http_response_code(404);
-                echo json_encode(['error' => 'Entreprise non trouvée']);
-            } else {
-                http_response_code(500);
-                echo json_encode(['error' => 'Erreur lors de la recherche']);
+            // Check HTTP response headers to determine the error
+            if (isset($http_response_header)) {
+                foreach ($http_response_header as $header) {
+                    if (strpos($header, '404') !== false) {
+                        http_response_code(404);
+                        echo json_encode(['error' => 'Entreprise non trouvée']);
+                        exit;
+                    }
+                }
             }
+            http_response_code(500);
+            echo json_encode(['error' => 'Erreur lors de la recherche']);
             exit;
         }
 
