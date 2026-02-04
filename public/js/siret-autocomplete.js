@@ -24,20 +24,21 @@ async function rechercherEntrepriseBySiret(siret) {
     }
     
     const siretClean = siret.replace(/\s/g, '');
-    const url = `https://api.insee.fr/api-sirene/3.11/siret/${siretClean}`;
+    // Appel vers l'API backend au lieu de l'API INSEE directement
+    const url = `/api/sirene/siret/${siretClean}`;
     
     const response = await fetch(url, {
         headers: {
-            'Authorization': 'Bearer VOTRE_TOKEN_API', // À configurer
             'Accept': 'application/json'
         }
     });
     
     if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
         if (response.status === 404) {
             throw new Error('Entreprise non trouvée');
         }
-        throw new Error('Erreur lors de la recherche');
+        throw new Error(errorData.error || 'Erreur lors de la recherche');
     }
     
     const data = await response.json();

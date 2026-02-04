@@ -12,6 +12,7 @@ use Controller\AuthController;
 use Controller\DashboardController;
 use Controller\PasswordController;
 use Controller\API\UserApiController;
+use Controller\API\SireneApiController;
 //use Controller\TaskController;
 use Controller\CustomerController;
 
@@ -45,6 +46,7 @@ $userController = new UserController($response, $userRepository, $roleRepository
 $dashboardController = new DashboardController($response, $session, $request);
 $passwordController = new PasswordController($response, $userRepository, $session);
 $userApiController = new UserApiController($userRepository, $session, $request);
+$sireneApiController = new SireneApiController($session);
 //$taskController = new TaskController($response, $taskRepository, $session, $request);
 $CustomerController = new CustomerController($response, $CustomerRepository, $session, $request);
 
@@ -59,7 +61,8 @@ $registerRoutes(
     $authController,      // #5 AuthController
     $dashboardController, // #6 DashboardController
     $passwordController,  // #7 PasswordController
-    $userApiController    // #8 UserApiController
+    $userApiController,   // #8 UserApiController
+    $sireneApiController  // #9 SireneApiController
 );
 
 $router->dispatch($request, $response);
