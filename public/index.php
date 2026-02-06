@@ -70,14 +70,14 @@ $affectationController = new AffectationController($affectationRepository, $user
 $userApiController = new UserApiController($userRepository, $session);
 $sireneApiController = new SireneApiController($session);
 //$taskController = new TaskController($response, $taskRepository, $session, $request);
-$CustomerController = new CustomerController($response, $CustomerRepository, $session, $request);
+$customerController = new CustomerController($response, $customerRepository, $session, $request);
 
 /// appel des routes ///
 $registerRoutes = require __DIR__ . '/../config/routes.php';
 $registerRoutes(
     $router,                // Router
     $AppController,         // AppController
-    $CustomerController,    // CustomerController
+    $customerController,    // CustomerController
     $userController,        // UserController
     $authController,        // AuthController
     $dashboardController,   // DashboardController
