@@ -1,5 +1,7 @@
 <?php
 
+/// remplissage automatique de la table utilisateur ///
+
 require __DIR__ . '/../autoload.php';
 
 use Repository\UserRepository;

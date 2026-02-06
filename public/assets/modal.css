@@ -152,3 +152,49 @@
         font-size: 28px;
     }
 }
+
+/* ===================================
+   🔄 LOADER ET FEEDBACK MESSAGES
+   =================================== */
+
+/* Loader animé (spinner) */
+.loader {
+    display: inline-block;
+    margin-left: 8px;
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--border, #EB5E28);
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Messages de feedback (erreur/succès) */
+.feedback-message {
+    display: block;
+    margin-top: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    min-height: 18px;  /* Réserve l'espace pour éviter les sauts de layout */
+}
+
+.feedback-message.success {
+    color: #4caf50;  /* Vert pour succès */
+}
+
+.feedback-message.error {
+    color: #f44336;  /* Rouge pour erreur */
+}
+
+.feedback-message.loading {
+    color: var(--accent2, #3a86ff);  /* Bleu pour chargement */
+}

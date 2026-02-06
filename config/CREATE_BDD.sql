@@ -17,7 +17,7 @@ CREATE TABLE ENTREPRISE
 (
     id_entreprise SMALLINT AUTO_INCREMENT,
     nom           VARCHAR(100),
-    numero_SIREN  INT,
+    numero_SIRET  BIGINT,
     type          VARCHAR(100),
     information   VARCHAR(50),
     is_facturable BOOLEAN,
@@ -146,10 +146,10 @@ VALUES (NULL, 'admin', 'admin', 'admin', 'admin', NULL, '1'),
        (NULL, 'Caucat', 'Mattéo', 'matcau', 'matcau', NULL, '3'),
        (NULL, 'Compta', 'Compta', 'compta', 'compta', NULL, '5');
 
-INSERT INTO `ENTREPRISE` (`id_entreprise`, `nom`, `numero_SIREN`, `type`, `information`, `is_facturable`, `adresse`)
-VALUES (NULL, 'CONSERVATOIRE NATIONAL DES ARTS ET METIERS', '197534712', '8542Z - Enseignement supérieur', 'Formation', NULL,
-        'PARC MEDITERRANEE 40 RUE LOUIS LEPINE 34470 PEROLS'),
-       (NULL, 'DIGINAMIC', '818241978', 'Formation continue d’adultes', 'Informatique', NULL,
-        '292 RUE SAINT-MARTIN, 75003 PARIS');
+INSERT INTO `ENTREPRISE` (`id_entreprise`, `nom`, `numero_SIRET`, `type`, `information`, `is_facturable`, `adresse`)
+VALUES (NULL, 'CONSERVATOIRE NATIONAL DES ARTS ET METIERS', '19753471200017', '8542Z - Enseignement supérieur', 'Formation', NULL,
+        '292 RUE SAINT-MARTIN, 75003 PARIS'),
+       (NULL, 'DIGINAMIC', '81824197800050', 'Formation continue d’adultes', 'Informatique', NULL,
+        'PARC MEDITERRANEE 40 RUE LOUIS LEPINE 34470 PEROLS');
 
 

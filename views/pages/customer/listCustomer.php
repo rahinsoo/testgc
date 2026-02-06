@@ -16,12 +16,12 @@ $clients = $listClient ?? [];
     <?php foreach ($clients as $client): ?>
     <div class="container__card">
             <article class="card">
-                <a href="/customer/infoCustomer) ?>">
+                <a href="/customer/infoCustomer" >
                     <h2 class="card__title"><?= htmlspecialchars($client['nom']) ?></h2>
                 </a>
 
                 <div class="meta">
-                    <span class="badge"><?= htmlspecialchars((string)$client['numero_SIREN']) ?></span>
+                    <span class="badge"><?= htmlspecialchars((string)$client['numero_SIRET']) ?></span>
                 </div>
                 <div class="meta">
                     <button class="btn-edit" onclick="openEditModal(<?= $client['id_entreprise'] ?>)">✏️ Edit</button>
@@ -60,14 +60,26 @@ $clients = $listClient ?? [];
 
             <div class="form-group">
                 <label for="nom">Nom *</label>
-                <input type="text" id="nom" name="nom" required>
+                <input type="text"
+                       id="nom"
+                       name="nom"
+                       required>
             </div>
 
             <div class="form-group">
-                <label for="numero_SIREN">Numéro SIREN *</label>
-                <input type="text" id="numero_SIREN" name="numero_SIREN" required
-                       pattern="[0-9]{9}"
-                       title="Le SIREN doit contenir 9 chiffres">
+                <label for="numero_SIRET">Numéro SIRET *
+                    <span id="siretLoader" class="loader" style="display:none;">🔍</span>
+                </label>
+                <input type="text"
+                       id="numero_SIRET"
+                       name="numero_SIRET"
+                       required
+                       pattern="[0-9]{14}"
+                       maxlength="14"
+                       title="Le SIRET doit contenir 14 chiffres"
+                       placeholder="Ex: 81824197800035">
+                <small id="siretError" style="color: var(--error, red); display:none;"></small>
+                <small id="siretSuccess" style="color: var(--success, green); display:none;"></small>
             </div>
 
             <div class="form-group">
@@ -85,19 +97,25 @@ $clients = $listClient ?? [];
 
             <div class="form-group">
                 <label for="information">Information</label>
-                <textarea id="information" name="information"
+                <textarea id="information"
+                          name="information"
                           placeholder="Informations complémentaires..."></textarea>
             </div>
 
             <div class="form-group">
                 <label for="adresse">Adresse *</label>
-                <textarea id="adresse" name="adresse" required
-                          placeholder="123 Rue Exemple, 75001 Paris"></textarea>
+                <textarea id="adresse"
+                          name="adresse"
+                          required
+                          placeholder="333 Chemin du Choix, 34000 Montpellier"></textarea>
             </div>
 
             <div class="form-group">
                 <label>
-                    <input type="checkbox" id="is_facturable" name="is_facturable" checked>
+                    <input type="checkbox"
+                           id="is_facturable"
+                           name="is_facturable"
+                           checked>
                     Client facturable
                 </label>
             </div>

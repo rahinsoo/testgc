@@ -1,5 +1,6 @@
 <?php
 
+/// Config perso, non versionnée ///
 return [
     'db' => [
 

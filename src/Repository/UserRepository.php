@@ -149,4 +149,53 @@ readonly class UserRepository
 
         return $user ?: null;
     }
+
+    public function findCollaborateurs(): array
+    {
+        $stmt = $this->pdo->prepare(
+            "SELECT * FROM utilisateur WHERE id_user_role = :id_user_role"
+        );
+        $stmt->execute(['id_user_role' => 2]);
+
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    /// sécurité pour mot de passe oublié ///
+    /*public function saveResetToken(int $userId, string $token, string $expiresAt): void
+    {
+        $sql = "UPDATE utilisateur
+            SET reset_token = :token, reset_token_expires_at = :expires
+            WHERE id_user = :id";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([
+            'token' => $token,
+            'expires' => $expiresAt,
+            'id' => $userId
+        ]);
+    }
+
+    public function findByResetToken(string $token): ?User
+    {
+        $sql = "SELECT * FROM utilisateur
+            WHERE reset_token = :token
+            AND reset_token_expires_at > NOW()";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['token' => $token]);
+
+        $data = $stmt->fetch();
+        return $data ? $this->hydrate($data) : null;
+    }
+
+    public function clearResetToken(int $userId): void
+    {
+        $sql = "UPDATE user
+            SET reset_token = NULL, reset_token_expires_at = NULL
+            WHERE id_user = :id";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['id' => $userId]);
+    }*/
+
 }

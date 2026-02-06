@@ -1,5 +1,7 @@
 <?php
 
+/// afficher la page login et vérifier les identifiants ///
+
 namespace Controller;
 
 use Core\Request;
@@ -10,23 +12,31 @@ use JetBrains\PhpStorm\NoReturn;
 
 readonly class AuthController
 {
+    /// le controller coordonne les outils qu'on lui donne, il ne crée rien ///
     public function __construct(
-        private Response $response,
         private UserRepository $userRepository,
         private Session $session,
-        private Request $request
+        private Request $request,
+        private Response $response
     ) {}
 
+    /// affichage du formulaire de connexion ///
     public function login(): void
     {
-        $this->response->render('auth/login', []);
+        /*require __DIR__ . '/../../views/pages/auth/login.php';*/
+        $this->response->render('auth/login');
     }
 
+    /// méthode appelée après soumission du formulaire ///
     #[NoReturn]
     public function authenticate(): void
     {
-        $identifiant = $_POST['identifiant'] ?? '';
-        $password = $_POST['password'] ?? '';
+        if (!$this->request->isPost()) {
+            $this->response->redirect('/login');
+        }
+
+        $identifiant = $this->request->post('identifiant');
+        $password = $this->request->post('password');
 
         $user = $this->userRepository->findByIdentifiant($identifiant);
 
@@ -39,16 +49,23 @@ readonly class AuthController
         unset($user['password']);
         $this->session->set('user', $user);
 
-        header('Location: /home');
-        exit;
+        /*if ($this->session->isAdmin()) {
+            header('Location: /users');
+        } else {
+            header('Location: /dashboard');
+        }*/
+        /*header('Location: /dashboard');
+        exit;*/
+        $this->response->redirect('/dashboard');
     }
 
     #[NoReturn]
     public function logout(): void
     {
-        session_destroy();
-        header('Location: /login');
-        exit;
+        $this->session->destroy();
+        /*header('Location: /login');
+        exit;*/
+        $this->response->redirect('/login');
     }
 
 }

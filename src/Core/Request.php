@@ -1,5 +1,7 @@
 <?php
 
+/// centraliser $_GET, $_POST, $_SERVER ... ///
+
 namespace Core;
 
 final class Request {

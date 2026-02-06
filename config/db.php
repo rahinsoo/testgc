@@ -1,5 +1,6 @@
 <?php
 
+/// config commune à tous, qui est écrasée par le db.local ///
 $config = [
     'db' => [
         'host' => '',

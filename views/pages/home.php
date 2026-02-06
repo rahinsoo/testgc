@@ -20,7 +20,7 @@ $user = $_SESSION['user'] ?? null;
                     <article class="card">
                         <h3 class="card__title"><?= htmlspecialchars($client['nom']) ?></h3>
                         <div class="meta">
-                            <span class="badge"><?= htmlspecialchars((string)$client['numero_SIREN']) ?></span>
+                            <span class="badge"><?= htmlspecialchars((string)$client['numero_SIRET']) ?></span>
                             <span class="badge"><?= htmlspecialchars($client['type']) ?></span>
                             <span class="badge"><?= htmlspecialchars($client['information']) ?></span>
                             <span class="badge"><?= htmlspecialchars($client['adresse']) ?></span>

@@ -17,7 +17,7 @@ final readonly class AppController {
         private Response $response,
         private HomeRepository $homeRepository,
         private Session $session,
-        private Request $request,
+        private Request $request
     ) {}
 
     public function home() : void {

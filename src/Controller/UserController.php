@@ -13,31 +13,28 @@ use Core\Session;
 readonly class UserController
 {
     public function __construct(
-        private Response $response,
         private UserRepository $userRepository,
         private RoleRepository $roleRepository,
-        private Session $session,
+        private Session        $session,
+        private Response        $response,
         private Request $request
     ) {}
 
     private function denyIfNotLogged(): void
     {
         if (!$this->session->get('user')) {
-            header('Location: /login');
-            exit;
+            $this->response->redirect('/login');
         }
     }
 
     private function denyIfNotAdmin(): void
     {
         if (!$this->session->isLogged()) {
-            header('Location: /login');
-            exit;
+            $this->response->redirect('/login');
         }
 
         if (!$this->session->isAdmin()) {
-            header('Location: /dashboard');
-            exit;
+            $this->response->redirect('/dashboard');
         }
     }
 
@@ -45,15 +42,17 @@ readonly class UserController
     {
         $this->denyIfNotAdmin();
         $users = $this->userRepository->readAll();
+        /*require __DIR__ . '/../../views/pages/user/list.php';*/
         $this->response->render('user/list', [
-            'users' => $users
-        ]);
+            'users' => $users]
+        );
     }
 
     public function create(): void
     {
         $this->denyIfNotAdmin();
         $roles = $this->roleRepository->readAll();
+        /*require __DIR__ . '/../../views/pages/user/create.php';*/
         $this->response->render('user/create', [
             'roles' => $roles
         ]);
@@ -64,17 +63,20 @@ readonly class UserController
     {
         $this->denyIfNotAdmin();
 
-        $passwordHashed = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        if (!$this->request->isPost()) {
+            $this->response->redirect('/users');
+        }
+
+        $passwordHashed = password_hash($this->request->post('password'), PASSWORD_DEFAULT);
         $this->userRepository->createUser(
-            $_POST['nom'],
-            $_POST['prenom'],
-            $_POST['identifiant'],
+            $this->request->post('nom'),
+            $this->request->post('prenom'),
+            $this->request->post('identifiant'),
             $passwordHashed,
-            (int)$_POST['id_user_role']
+            (int)$this->request->post('id_user_role')
         );
 
-        header('Location: /users');
-        exit;
+        $this->response->redirect('/users');
     }
 
     public function edit(int $id_user): void
@@ -82,9 +84,10 @@ readonly class UserController
         $this->denyIfNotAdmin();
         $roles = $this->roleRepository->readAll();
         $user = $this->userRepository->readOne($id_user);
+        /*require __DIR__ . '/../../views/pages/user/edit.php';*/
         $this->response->render('user/edit', [
-            'roles' => $roles,
-            'user' => $user
+            'user' => $user,
+            'roles' => $roles
         ]);
     }
 
@@ -94,55 +97,59 @@ readonly class UserController
         $this->denyIfNotAdmin();
         $user = $this->userRepository->readOne($id_user);
         if (!$user) {
-            header('Location: /users');
-            exit;
+            $this->response->redirect('/users');
+        }
+
+        if (!$this->request->isPost()) {
+            $this->response->redirect('/users');
         }
 
         $updatedUser = new User(
             $id_user,
-            $_POST['nom'],
-            $_POST['prenom'],
-            $_POST['identifiant'],
+            $this->request->post('nom'),
+            $this->request->post('prenom'),
+            $this->request->post('identifiant'),
             $user->getPassword(), // Le password n'est pas modifié ici
-            $_POST['id_user_role'],
+            $this->request->post('id_user_role'),
             $user->getNomRole()
         );
 
         $this->userRepository->updateUser($updatedUser);
 
-        header('Location: /users');
-        exit;
+        $this->response->redirect('/users');
     }
 
-    public function changePassword(int $id_user): void
+    public function changePassword(): void
     {
         $this->denyIfNotLogged();
-        $user = $this->userRepository->readOne($id_user);
-        $this->response->render('user/change-password', [
-            'user' => $user
-        ]);
+        $user = $this->session->get('user');
+        /*require __DIR__ . '/../../views/pages/user/change-password.php';*/
+        $this->response->render('/profile/change-password');
     }
 
     #[NoReturn]
-    public function updatePassword(int $id_user): void
+    public function updatePassword(): void
     {
         $this->denyIfNotLogged();
 
         // Vérifie l'ancien mot de passe
-        $user = $this->userRepository->readOne($id_user);
-        if (!password_verify($_POST['old_password'], $user->getPassword())) {
+        $user = $this->session->get('user');
+
+        if (!password_verify($this->request->post('old_password'), $user->getPassword())) {
             $this->session->flash('error', 'Ancien mot de passe incorrect');
-            header('Location: /users/' . $id_user . '/change-password');
-            exit;
+            $this->response->redirect('/profile/change-password');
         }
 
         // Met à jour le mot de passe
-        $newPasswordHashed = password_hash($_POST['new_password'], PASSWORD_DEFAULT);
-        $this->userRepository->updatePassword($id_user, $newPasswordHashed);
+        $newPassword = $this->request->post('new_password');
+        $hashed = password_hash($newPassword, PASSWORD_DEFAULT);
+
+        $this->userRepository->updatePassword($user->getId(), $hashed);
 
         $this->session->flash('success', 'Mot de passe modifié avec succès');
-        header('Location: /users');
-        exit;
+        /*header('Location: /users');
+        exit;*/
+        $this->response->redirect('/profile');
     }
 
     #[NoReturn]
@@ -150,7 +157,6 @@ readonly class UserController
     {
         $this->denyIfNotAdmin();
         $this->userRepository->deleteUser($id_user);
-        header('Location: /users');
-        exit;
+        $this->response->redirect('/users');
     }
 }
